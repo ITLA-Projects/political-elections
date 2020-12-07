@@ -7,6 +7,7 @@ class Selection extends Controller
     private $electoralPositionRepo;
     private $electionRepo;
     private $resultRepo;
+    private $candidateRepo;
 
 
     function __construct()
@@ -16,6 +17,7 @@ class Selection extends Controller
         $this->electoralPositionRepo = new ElectoralPositionRepository();
         $this->resultRepo = new ResultRepository();
         $this->electionRepo = new ElectionRepository();
+        $this->candidateRepo = new CandidateRepository();
 
         //messages & data
         $this->view->someError = "";
@@ -52,10 +54,23 @@ class Selection extends Controller
                     var_dump($this->auth->retrieve('citizen')->id);
                     var_dump($this->resultRepo->GetByElectionAndCitizen($electionList[0]->id,$this->auth->retrieve('citizen')->id));
                     return;*/
-                    $this->view->alreadyVotedByCitizen = $this->resultRepo->GetByElectionAndCitizen($electionList[0]->id,$this->auth->retrieve('citizen')->id);
-                    $this->view->positionList = $this->electoralPositionRepo->GetByStatus(true);
 
-                    
+
+                    $positionList = $this->electoralPositionRepo->GetByStatus(true);
+
+                    $tmpArr = array();
+
+                    foreach ($positionList as $key => $value) {
+                        $candidateList = $this->candidateRepo->GetByElectoralPosition($value->id);
+
+                        if(count($candidateList)>=2){
+                            array_push($tmpArr,$value);
+                        }
+                    }
+
+                    $this->view->alreadyVotedByCitizen = $this->resultRepo->GetByElectionAndCitizen($electionList[0]->id,$this->auth->retrieve('citizen')->id);
+                    $this->view->positionList = $tmpArr;
+
                     $count = 0;
                     foreach ($this->view->positionList as $key => $position) {
                         foreach ($this->view->alreadyVotedByCitizen as $key => $result) {
