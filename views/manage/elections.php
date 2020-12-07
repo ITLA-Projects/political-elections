@@ -26,46 +26,58 @@
                 <h1 class="jumbotron-heading">Selection Panel</h1>
                 <p class="lead text-muted">only for admins</p>
             </div>
+            <?php if (!$this->exists) : ?>
+                <div>
+                    <a href="<?php echo constant('URL') ?>admin" class="btn btn-outline-warning">Go Back</a>
+                    <a href="<?php echo constant('URL') ?>elections/initialize" class="btn btn-outline-primary">Initialize Elections</a>
+                </div>
+            <?php endif; ?>
+
+            <div>
+                <?php if ($this->message !== "") : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $this->message; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </section>
 
         <div class="album py-5 bg-light">
             <div class="container">
 
                 <div class="row">
-                        <!-- CHECK IS THE CITIZEN ELECTED-->
-                 <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($this->list as $entity) : ?>
+                    <!-- CHECK IS THE CITIZEN ELECTED-->
+                    <table class="table">
+                        <thead class="thead-dark">
                             <tr>
-                                <th scope="row"><?php echo $entity->id; ?></th>
-
-        
-                                <th><?php echo $entity->name; ?></th>
-                                <th><?php echo $entity->date ?></th>
-                                
-                                <?php if ($entity->status) : ?>
-                                    <th>Active</th>
-                                <?php else : ?>
-                                    <th>Inactive</th>
-                                <?php endif; ?>
-                                <th>
-                                    <a href="Estudiantes/edit.php?id=<?php echo $entity->id; ?>" class="btn btn-warning">Edit</a>
-                                    <a href="Estudiantes/delete.php?id=<?php echo $entity->id; ?>" class="btn btn-danger">Delete</a>
-                                </th>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        <?php endforeach; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->list as $entity) : ?>
+                                <tr>
+                                    <th scope="row"><?php echo $entity->id; ?></th>
 
-                    </tbody>
-                </table>
+
+                                    <th><?php echo $entity->name; ?></th>
+                                    <th><?php echo $entity->date ?></th>
+
+                                    <?php if ($entity->status) : ?>
+                                        <th>Active</th>
+                                        <th><a href="<?php echo constant('URL') . 'elections/terminate?id=' . $entity->id ?>" class="btn btn-danger">Finish Elections</a></th>
+                                    <?php else : ?>
+                                        <th>Inactive</th>
+                                        <th><a href="<?php echo constant('URL') . 'results?id=' . $entity->id ?>" class="btn btn-primary">Get Results</a></th>
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>

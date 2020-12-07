@@ -79,15 +79,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Results (Resultados)</h5>
-                                        <p class="card-text">Manage The Results</p>
-                                        <a href="<?php echo constant('URL') ?>results" class="btn btn-primary">Manage Results</a>
-                                    </div>
-                                </div>
-                            </div>
                 </div>
             </div>
         </div>

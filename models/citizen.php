@@ -31,9 +31,9 @@ class Citizen{
 
     public function getKeyTypes($query){
         if($query === "create"){
-            return "isssi";
+            return "ssssi";
         }else if($query === "update"){
-            return "isssii";
+            return "ssssii";
         }
     }
 

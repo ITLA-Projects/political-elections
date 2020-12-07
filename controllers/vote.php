@@ -41,13 +41,13 @@ class Vote extends Controller
                 $entity->initializeData(
                     0,
                     $_POST['candidate'],
-                    $this->electionRepo->GetByStatus(true),
-                    $this->auth->retrieve('citizen'),
+                    $this->electionRepo->GetByStatus(true)[0]->id,
+                    $this->auth->retrieve('citizen')->id,
                     $_POST['electoralPosition']
                 );
 
                 //check if the user didnt voted
-                $result = $this->resultRepo->GetByElectionAndCitizenAndElectoralPosition($this->electionRepo->GetByStatus(true), $this->auth->retrieve('citizen'),$_POST['electoralPosition']);
+                $result = $this->resultRepo->GetByElectionAndCitizenAndElectoralPosition($this->electionRepo->GetByStatus(true)[0]->id, $this->auth->retrieve('citizen')->id,$_POST['electoralPosition']);
                 if($result){
                     //you found something, forget about it
                     header("Location: " . constant('URL')."selection");

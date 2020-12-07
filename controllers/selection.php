@@ -48,7 +48,10 @@ class Selection extends Controller
                 }else{
                     //there is a election available? render this page
                     //but before, check what the user already voted
-                    
+                    /*var_dump($electionList[0]->id);
+                    var_dump($this->auth->retrieve('citizen')->id);
+                    var_dump($this->resultRepo->GetByElectionAndCitizen($electionList[0]->id,$this->auth->retrieve('citizen')->id));
+                    return;*/
                     $this->view->alreadyVotedByCitizen = $this->resultRepo->GetByElectionAndCitizen($electionList[0]->id,$this->auth->retrieve('citizen')->id);
                     $this->view->positionList = $this->electoralPositionRepo->GetByStatus(true);
 

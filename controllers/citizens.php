@@ -15,9 +15,65 @@ class Citizens extends Controller
 
 
         $this->view->list = array();
+        $this->view->entity = "";
     }
 
-    function render()
+    function add(){
+
+        if(isset($_POST['identificationCard']) && isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email'])){
+            $entity = new Citizen();
+            $entity->initializeData(
+                0,
+                $_POST['identificationCard'],
+                $_POST['firstname'],
+                $_POST['lastname'],
+                $_POST['email'],
+                true
+            );
+            $this->repo->Create($entity);
+            header("Location: " . constant('URL')."citizens");
+            exit();
+        }else{
+            $this->render("add/");
+        }
+    }
+
+    function edit(){
+        if(isset($_GET['id'])){
+            $this->view->entity = $this->repo->GetById($_GET['id']);
+            $this->render("edit/");
+
+        }else if(isset($_POST['id']) && isset($_POST['identificationCard']) && isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email'])){
+            $entity = new Citizen();
+
+            //var_dump($_POST['identificationCard']);
+           // return;
+
+            $entity->initializeData(
+                $_POST['id'],
+                $_POST['identificationCard'],
+                $_POST['firstname'],
+                $_POST['lastname'],
+                $_POST['email'],
+                $_POST['status'] === "on" ? true : false
+            );
+            $this->repo->Update($entity);
+            header("Location: " . constant('URL')."citizens");
+            exit();
+        }
+    }
+
+    function delete(){
+        if(isset($_GET['id'])){
+            $this->repo->Delete($_GET['id']);
+            header("Location: " . constant('URL')."citizens");
+            exit();
+        }else{
+
+        }
+    }
+
+    function render($where="")
     {
         //before render, you need to check the authentication
 
@@ -25,7 +81,7 @@ class Citizens extends Controller
         if ($this->auth->checkAuthentication()) {
 
             $this->view->list = $this->repo->GetList();
-            $this->view->render('manage/citizen');
+            $this->view->render('manage/'.$where.'citizen');
         } else {
             //it does not? check the authentication of the citizen
 

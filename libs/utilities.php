@@ -57,6 +57,41 @@ class Utilities{
         return "UPDATE " . strtolower(get_class($entity)) . " SET ".
         $finalQuery . "WHERE id = ?";
     }
-}
 
-?>
+    public function uploadPhoto($directory,$name,$tmpFile,$type,$size){
+        $isSuccess = false;
+
+        if($type == "image/gif"
+        || $type == "image/jpeg" 
+        || $type == "image/png" 
+        || $type == "image/JPG" 
+        || $type == "image/jpg"
+        || $type == "image/pjpeg" && $size < 1000000){
+
+
+            if(!file_exists($directory)){
+                mkdir($directory,0777,true);
+
+                if(file_exists($directory)){
+
+                    $this->uploadFile($directory . $name,$tmpFile);
+                    $isSuccess = true;
+                }
+            }else{
+                $this->uploadFile($directory . $name,$tmpFile);
+                $isSuccess = true;
+            }
+        }else{
+            $isSuccess=false;
+        }
+        return $isSuccess;
+    }
+
+    private function uploadFile($name,$tmpFile){
+        if(file_exists($name)){
+            unlink($name);
+        }
+
+        move_uploaded_file($tmpFile,$name);
+    }
+}

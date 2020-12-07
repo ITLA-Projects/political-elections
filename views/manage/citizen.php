@@ -26,48 +26,52 @@
                 <h1 class="jumbotron-heading">Selection Panel</h1>
                 <p class="lead text-muted">only for admins</p>
             </div>
+            <div>
+                <a href="<?php echo constant('URL') ?>admin" class="btn btn-outline-warning">Go Back</a>
+                <a href="<?php echo constant('URL') ?>citizens/add" class="btn btn-outline-primary">Create</a>
+            </div>
         </section>
 
         <div class="album py-5 bg-light">
             <div class="container">
 
                 <div class="row">
-                        <!-- CHECK IS THE CITIZEN ELECTED-->
-                 <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">identication card</th>
-                            <th scope="col">Firstname</th>
-                            <th scope="col">Lastname</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($this->list as $entity) : ?>
+                    <!-- CHECK IS THE CITIZEN ELECTED-->
+                    <table class="table">
+                        <thead class="thead-dark">
                             <tr>
-                                <th scope="row"><?php echo $entity->id; ?></th>
-
-                                <th><?php echo $entity->identificationCard; ?></th>
-                                <th><?php echo $entity->firstname; ?></th>
-                                <th><?php echo $entity->lastname ?></th>
-                                <th><?php echo $entity->email ?></th>
-                                <?php if ($entity->status) : ?>
-                                    <th>Active</th>
-                                <?php else : ?>
-                                    <th>Inactive</th>
-                                <?php endif; ?>
-                                <th>
-                                    <a href="Estudiantes/edit.php?id=<?php echo $entity->id; ?>" class="btn btn-warning">Edit</a>
-                                    <a href="Estudiantes/delete.php?id=<?php echo $entity->id; ?>" class="btn btn-danger">Delete</a>
-                                </th>
+                                <th scope="col">#</th>
+                                <th scope="col">identication card</th>
+                                <th scope="col">Firstname</th>
+                                <th scope="col">Lastname</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        <?php endforeach; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->list as $entity) : ?>
+                                <tr>
+                                    <th scope="row"><?php echo $entity->id; ?></th>
 
-                    </tbody>
-                </table>
+                                    <th><?php echo $entity->identificationCard; ?></th>
+                                    <th><?php echo $entity->firstname; ?></th>
+                                    <th><?php echo $entity->lastname ?></th>
+                                    <th><?php echo $entity->email ?></th>
+                                    <?php if ($entity->status) : ?>
+                                        <th>Active</th>
+                                    <?php else : ?>
+                                        <th>Inactive</th>
+                                    <?php endif; ?>
+                                    <th>
+                                        <a href="<?php echo constant('URL') . "citizens/edit?id=" . $entity->id ?>" class="btn btn-warning">Edit</a>
+                                        <a href="<?php echo constant('URL') . "citizens/delete?id=" . $entity->id ?>" class="btn btn-danger">Delete</a>
+                                    </th>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
